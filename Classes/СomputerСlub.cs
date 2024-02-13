@@ -1,50 +1,91 @@
-﻿using Practical_lesson_No._28.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data;
+using MySql.Data.MySqlClient;
+using Practical_lesson_No._28.Classes;
 
 namespace Practice_work_28.Classes
 {
-    public class СomputerСlub : SqlMethods<СomputerСlub>
+    public class СomputerСlub
     {
-        public int ID;
-        public string Name;
-        public string Address;
-        public DateTime Time;
+        public int ClubID { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string OpeningHours { get; set; }
 
-        public СomputerСlub()
+        public СomputerСlub(int clubID, string name, string address, string openingHours)
         {
-
+            ClubID = clubID;
+            Name = name;
+            Address = address;
+            OpeningHours = openingHours;
         }
 
-        public СomputerСlub(int ID, string Name, string Address, DateTime Time)
+        public void Update(int clubID, string name, string address, string openingHours)
         {
-            this.ID = ID;
-            this.Name = Name;
-            this.Address = Address;
-            this.Time = Time;
+            using (MySqlConnection conn = Connection.GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "UPDATE ComputerClub SET Name = @name, Address = @address, OpeningHours = @openingHours WHERE ClubID = @clubID";
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@address", address);
+                cmd.Parameters.AddWithValue("@openingHours", openingHours);
+                cmd.Parameters.AddWithValue("@clubID", clubID);
+                cmd.ExecuteNonQuery();
+            }
         }
 
-        public void Update(params object[] args)
+        static public void Insert(string name, string address, string openingHours)
         {
-
+            using (MySqlConnection conn = Connection.GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "INSERT INTO ComputerClub (Name, Address, OpeningHours) VALUES (@name, @address, @openingHours)";
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@address", address);
+                cmd.Parameters.AddWithValue("@openingHours", openingHours);
+                cmd.ExecuteNonQuery();
+            }
         }
 
-        public void Insert(params object[] args)
+        public void Delete(int clubID)
         {
-
+            using (MySqlConnection conn = Connection.GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "DELETE FROM ComputerClub WHERE ClubID = @clubID";
+                cmd.Parameters.AddWithValue("@clubID", clubID);
+                cmd.ExecuteNonQuery();
+            }
         }
 
-        public void Delete()
+        static public List<СomputerСlub> GetAll()
         {
-
-        }
-
-        public List<СomputerСlub> GetAll()
-        {
-            return new List<СomputerСlub>();
+            List<СomputerСlub> clubs = new List<СomputerСlub>();
+            using (MySqlConnection conn = Connection.GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "SELECT * FROM ComputerClub";
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        clubs.Add(new СomputerСlub(reader.GetInt32("ClubID"), reader.GetString("Name"), reader.GetString("Address"), reader.GetString("OpeningHours")));
+                    }
+                }
+            }
+            return clubs;
         }
     }
 }
