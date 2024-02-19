@@ -122,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Element\СomputerСlubElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,6 +137,9 @@
     <Compile Include="Classes\ComputerRental.cs" />
     <Compile Include="Classes\Connection.cs" />
     <Compile Include="Classes\СomputerСlub.cs" />
+    <Compile Include="Element\СomputerСlubElement.xaml.cs">
+      <DependentUpon>СomputerСlubElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -165,9 +172,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Element\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="SQL requests\creating tables.sql" />
   </ItemGroup>

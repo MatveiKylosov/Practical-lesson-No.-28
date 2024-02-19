@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Practical_lesson_No._28.Element.СomputerСlubElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Practical_lesson_No._28.Element"
+             mc:Ignorable="d">
+    <Border Background="#272727" Margin="10" CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="15, 5, 15,5">
+                <TextBlock Text="Клуб" HorizontalAlignment="Center" Margin="0,5,0,15" FontSize="16" Foreground="White" FontWeight="Bold"/>
+
+                <TextBlock Text="Название:" Foreground="White" FontWeight="Bold"/>
+                <Grid>
+                    <TextBlock Text="Darugame Lounge Cyber Club" Foreground="White" x:Name="Name"/>
+                    <TextBox/>
+                </Grid>
+
+                <TextBlock Text="Адрес:" Foreground="White" FontWeight="Bold"/>
+                <Grid>
+                    <TextBlock Text="пермь улица ленина 60" Foreground="White"/>
+                    <TextBox/>
+                </Grid>
+
+                <TextBlock Text="время работы" Foreground="White" FontWeight="Bold"/>
+                <Grid>
+                    <TextBlock Text="ежедневно, круглосуточно" Foreground="White"/>
+                    <TextBox/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
