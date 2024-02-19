@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Practical_lesson_No._28.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,88 @@ namespace Practical_lesson_No._28.Element
     /// </summary>
     public partial class СomputerСlubElement : UserControl
     {
-        public СomputerСlubElement()
+        Classes.ComputerClub computerClub;
+        bool edit = false;
+
+        public СomputerСlubElement(MainWindow.roles roles, Classes.ComputerClub сomputerСlub = null)
         {
             InitializeComponent();
+            if (roles == MainWindow.roles.user)
+                InsertUpdateBT.Width = DeleteBT.Width = InsertUpdateBT.Height = DeleteBT.Height = 0;
+
+            if (сomputerСlub != null)
+            {
+                Name.Text = сomputerСlub.Name;
+                Address.Text = сomputerСlub.Address;
+                OpeningHours.Text = сomputerСlub.OpeningHours;
+            }
+            else
+            {
+                TBName.Visibility = TBAddress.Visibility = TBOpeningHours.Visibility = Visibility.Visible;
+                InsertUpdateBT.Content = "Добавить";
+            }
+
+            this.computerClub = сomputerСlub;
+        }
+
+        private void InsertUpdateBT_Click(object sender, RoutedEventArgs e)
+        {
+            if (computerClub != null)
+            {
+                if (edit)
+                {
+                    if (!string.IsNullOrEmpty(TBName.Text) & !string.IsNullOrEmpty(TBAddress.Text) & !string.IsNullOrEmpty(TBOpeningHours.Text))
+                        return;
+
+                    Name.Text = TBName.Text;
+                    Address.Text = TBAddress.Text;
+                    TBOpeningHours.Text = OpeningHours.Text;
+
+                    computerClub.Update(Name.Text, Address.Text, OpeningHours.Text);
+
+                    TBName.Visibility = TBAddress.Visibility = TBOpeningHours.Visibility = Visibility.Hidden;
+                    DeleteBT.Content = "Удалить";
+
+                    edit = false;
+                } else {
+                    TBName.Text = Name.Text;
+                    TBAddress.Text = Address.Text;
+                    TBOpeningHours.Text = OpeningHours.Text;
+
+                    TBName.Visibility = TBAddress.Visibility = TBOpeningHours.Visibility = Visibility.Visible;
+                    DeleteBT.Content = "Отменить";
+                    edit = true;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(TBName.Text) & !string.IsNullOrEmpty(TBAddress.Text) & !string.IsNullOrEmpty(TBOpeningHours.Text)) {
+                    Classes.ComputerClub.Insert(TBName.Text, TBAddress.Text, TBOpeningHours.Text);
+                    MainWindow.Instance.Admin_Click(null, null);
+                }
+            }
+        }
+
+        private void DeleteBT_Click(object sender, RoutedEventArgs e)
+        {
+            if(computerClub != null)
+            {
+                if (edit)
+                {
+                    TBName.Visibility = TBAddress.Visibility = TBOpeningHours.Visibility = Visibility.Hidden;
+                    DeleteBT.Content = "Удалить";
+
+                    edit = false;
+                }
+                else
+                //если он где то учавствуте
+                {
+                    computerClub.Delete();
+                    MainWindow.Instance.Admin_Click(null, null);
+                }
+            }
+            else
+                TBName.Text = TBAddress.Text = TBOpeningHours.Text = "";
         }
     }
 }

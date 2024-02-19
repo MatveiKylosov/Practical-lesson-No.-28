@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using Practical_lesson_No._28.Classes;
 
-namespace Practice_work_28.Classes
+namespace Practical_lesson_No._28.Classes
 {
     public class ComputerRental
     {
@@ -14,7 +14,7 @@ namespace Practice_work_28.Classes
         public DateTime DateAndTime { get; set; }
         public string ClientFullName { get; set; }
         public int ClubID { get; set; }
-        public Classes.СomputerСlub Club { get; set; }
+        public Classes.ComputerClub Club { get; set; }
 
         public ComputerRental(int rentalID, DateTime dateAndTime, string clientFullName, int clubID)
         {

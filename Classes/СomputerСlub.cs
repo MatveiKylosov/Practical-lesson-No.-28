@@ -7,16 +7,16 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using Practical_lesson_No._28.Classes;
 
-namespace Practice_work_28.Classes
+namespace Practical_lesson_No._28.Classes
 {
-    public class СomputerСlub
+    public class ComputerClub
     {
         public int ClubID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string OpeningHours { get; set; }
 
-        public СomputerСlub(int clubID, string name, string address, string openingHours)
+        public ComputerClub(int clubID, string name, string address, string openingHours)
         {
             ClubID = clubID;
             Name = name;
@@ -24,7 +24,7 @@ namespace Practice_work_28.Classes
             OpeningHours = openingHours;
         }
 
-        public void Update(int clubID, string name, string address, string openingHours)
+        public void Update(string name, string address, string openingHours)
         {
             using (MySqlConnection conn = Connection.GetConnection())
             {
@@ -35,7 +35,7 @@ namespace Practice_work_28.Classes
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@address", address);
                 cmd.Parameters.AddWithValue("@openingHours", openingHours);
-                cmd.Parameters.AddWithValue("@clubID", clubID);
+                cmd.Parameters.AddWithValue("@clubID", this.ClubID);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -55,7 +55,7 @@ namespace Practice_work_28.Classes
             }
         }
 
-        public void Delete(int clubID)
+        public void Delete()
         {
             using (MySqlConnection conn = Connection.GetConnection())
             {
@@ -63,14 +63,14 @@ namespace Practice_work_28.Classes
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandText = "DELETE FROM ComputerClub WHERE ClubID = @clubID";
-                cmd.Parameters.AddWithValue("@clubID", clubID);
+                cmd.Parameters.AddWithValue("@clubID", ClubID);
                 cmd.ExecuteNonQuery();
             }
         }
 
-        static public List<СomputerСlub> GetAll()
+        static public List<ComputerClub> GetAll()
         {
-            List<СomputerСlub> clubs = new List<СomputerСlub>();
+            List<ComputerClub> clubs = new List<ComputerClub>();
             using (MySqlConnection conn = Connection.GetConnection())
             {
                 conn.Open();
@@ -81,7 +81,7 @@ namespace Practice_work_28.Classes
                 {
                     while (reader.Read())
                     {
-                        clubs.Add(new СomputerСlub(reader.GetInt32("ClubID"), reader.GetString("Name"), reader.GetString("Address"), reader.GetString("OpeningHours")));
+                        clubs.Add(new ComputerClub(reader.GetInt32("ClubID"), reader.GetString("Name"), reader.GetString("Address"), reader.GetString("OpeningHours")));
                     }
                 }
             }
