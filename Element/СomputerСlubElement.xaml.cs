@@ -40,6 +40,7 @@ namespace Practical_lesson_No._28.Element
             {
                 TBName.Visibility = TBAddress.Visibility = TBOpeningHours.Visibility = Visibility.Visible;
                 InsertUpdateBT.Content = "Добавить";
+                DeleteBT.Content = "Стереть";
             }
 
             this.computerClub = сomputerСlub;
@@ -51,12 +52,12 @@ namespace Practical_lesson_No._28.Element
             {
                 if (edit)
                 {
-                    if (!string.IsNullOrEmpty(TBName.Text) & !string.IsNullOrEmpty(TBAddress.Text) & !string.IsNullOrEmpty(TBOpeningHours.Text))
+                    if (string.IsNullOrEmpty(TBName.Text) || string.IsNullOrEmpty(TBAddress.Text) || string.IsNullOrEmpty(TBOpeningHours.Text))
                         return;
 
                     Name.Text = TBName.Text;
                     Address.Text = TBAddress.Text;
-                    TBOpeningHours.Text = OpeningHours.Text;
+                    OpeningHours.Text = TBOpeningHours.Text;
 
                     computerClub.Update(Name.Text, Address.Text, OpeningHours.Text);
 
