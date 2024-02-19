@@ -122,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Element\ComputerRentalElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Element\СomputerСlubElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,6 +141,9 @@
     <Compile Include="Classes\ComputerRental.cs" />
     <Compile Include="Classes\Connection.cs" />
     <Compile Include="Classes\СomputerСlub.cs" />
+    <Compile Include="Element\ComputerRentalElement.xaml.cs">
+      <DependentUpon>ComputerRentalElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Element\СomputerСlubElement.xaml.cs">
       <DependentUpon>СomputerСlubElement.xaml</DependentUpon>
     </Compile>

@@ -96,8 +96,14 @@ namespace Practical_lesson_No._28.Element
                     edit = false;
                 }
                 else
-                //если он где то учавствуте
                 {
+                    if (MainWindow.Instance.computerRentals.Exists(x => x.ClubID == computerClub.ClubID))
+                        if (MessageBox.Show("В этом клубе есть аренды.\nЕсли удалить этот клуб то все его записи также удаляться.\nПродолжить удаление?", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                            return;
+
+                    foreach (var rent in MainWindow.Instance.computerRentals.FindAll(x => x.ClubID == computerClub.ClubID))
+                        rent.Delete();
+
                     computerClub.Delete();
                     MainWindow.Instance.Admin_Click(null, null);
                 }

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Practical_lesson_No._28.Element.ComputerRentalElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Practical_lesson_No._28.Element"
+             mc:Ignorable="d">
+    <Border Background="#303030" Margin="20,15,20,5" CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="15, 5, 15,5">
+                <TextBlock Text="Аренда" HorizontalAlignment="Center" Margin="0,5,0,15" FontSize="16" Foreground="White" FontWeight="Bold"/>
+
+                <TextBlock Text="Название клуба:" Foreground="White" FontWeight="Bold"/>
+                <Grid>
+                    <TextBlock Text="Darugame Lounge Cyber Club" Foreground="White" x:Name="ClubName"/>
+                    <ComboBox x:Name="CBClubName" Visibility="Hidden"/>
+                </Grid>
+
+                <TextBlock Text="ФИО клиента:" Foreground="White" FontWeight="Bold"/>
+                <Grid>
+                    <TextBlock Text="пермь улица ленина 60" Foreground="White" x:Name="ClientFullName"/>
+                    <TextBox x:Name="TBClientFullName" Visibility="Hidden"/>
+                </Grid>
+
+                <TextBlock Text="Дата и время аренды" Foreground="White" FontWeight="Bold"/>
+                <Grid>
+                    <TextBlock Text="ежедневно, круглосуточно" Foreground="White" x:Name="DateAndTime"/>
+                    <TextBox x:Name="TBDateAndTime" Visibility="Hidden"/>
+                </Grid>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
+                <Button Content="Изменить" Width="70" Margin="5,0,5,0" x:Name="InsertUpdateBT" Click="InsertUpdateBT_Click"/>
+                <Button Content="Удалить" Width="70"  Margin="5,0,5,0" x:Name="DeleteBT" Click="DeleteBT_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

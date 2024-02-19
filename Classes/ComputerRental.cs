@@ -14,7 +14,6 @@ namespace Practical_lesson_No._28.Classes
         public DateTime DateAndTime { get; set; }
         public string ClientFullName { get; set; }
         public int ClubID { get; set; }
-        public Classes.ComputerClub Club { get; set; }
 
         public ComputerRental(int rentalID, DateTime dateAndTime, string clientFullName, int clubID)
         {
@@ -44,7 +43,7 @@ namespace Practical_lesson_No._28.Classes
             return rentals;
         }
 
-        public void Update(int rentalID, DateTime dateAndTime, string clientFullName, int clubID)
+        public void Update(DateTime dateAndTime, string clientFullName, int clubID)
         {
             using (MySqlConnection conn = Connection.GetConnection())
             {
@@ -55,7 +54,7 @@ namespace Practical_lesson_No._28.Classes
                 cmd.Parameters.AddWithValue("@dateAndTime", dateAndTime);
                 cmd.Parameters.AddWithValue("@clientFullName", clientFullName);
                 cmd.Parameters.AddWithValue("@clubID", clubID);
-                cmd.Parameters.AddWithValue("@rentalID", rentalID);
+                cmd.Parameters.AddWithValue("@rentalID", this.RentalID);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -75,7 +74,7 @@ namespace Practical_lesson_No._28.Classes
             }
         }
 
-        public void Delete(int rentalID)
+        public void Delete()
         {
             using (MySqlConnection conn = Connection.GetConnection())
             {
@@ -83,7 +82,7 @@ namespace Practical_lesson_No._28.Classes
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandText = "DELETE FROM ComputerRental WHERE RentalID = @rentalID";
-                cmd.Parameters.AddWithValue("@rentalID", rentalID);
+                cmd.Parameters.AddWithValue("@rentalID", this.RentalID);
                 cmd.ExecuteNonQuery();
             }
         }
