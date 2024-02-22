@@ -24,48 +24,36 @@ namespace Practical_lesson_No._28.Classes
             OpeningHours = openingHours;
         }
 
-        public void Update(string name, string address, string openingHours)
+        public bool Update(string name, string address, string openingHours)
         {
-            using (MySqlConnection conn = Connection.GetConnection())
+            var parameters = new Dictionary<string, object>
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "UPDATE ComputerClub SET Name = @name, Address = @address, OpeningHours = @openingHours WHERE ClubID = @clubID";
-                cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@address", address);
-                cmd.Parameters.AddWithValue("@openingHours", openingHours);
-                cmd.Parameters.AddWithValue("@clubID", this.ClubID);
-                cmd.ExecuteNonQuery();
-            }
+                {"@name", name},
+                {"@address", address},
+                {"@openingHours", openingHours},
+                {"@clubID", this.ClubID}
+            };
+            return Connection.ExecuteNonQuery("UPDATE ComputerClub SET Name = @name, Address = @address, OpeningHours = @openingHours WHERE ClubID = @clubID", parameters);
         }
 
-        static public void Insert(string name, string address, string openingHours)
+        static public bool Insert(string name, string address, string openingHours)
         {
-            using (MySqlConnection conn = Connection.GetConnection())
+            var parameters = new Dictionary<string, object>
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO ComputerClub (Name, Address, OpeningHours) VALUES (@name, @address, @openingHours)";
-                cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@address", address);
-                cmd.Parameters.AddWithValue("@openingHours", openingHours);
-                cmd.ExecuteNonQuery();
-            }
+                {"@name", name},
+                {"@address", address},
+                {"@openingHours", openingHours}
+            };
+            return Connection.ExecuteNonQuery("INSERT INTO ComputerClub (Name, Address, OpeningHours) VALUES (@name, @address, @openingHours)", parameters);
         }
 
-        public void Delete()
+        public bool Delete()
         {
-            using (MySqlConnection conn = Connection.GetConnection())
+            var parameters = new Dictionary<string, object>
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "DELETE FROM ComputerClub WHERE ClubID = @clubID";
-                cmd.Parameters.AddWithValue("@clubID", ClubID);
-                cmd.ExecuteNonQuery();
-            }
+                {"@clubID", ClubID}
+            };
+            return Connection.ExecuteNonQuery("DELETE FROM ComputerClub WHERE ClubID = @clubID", parameters);
         }
 
         static public List<ComputerClub> GetAll()

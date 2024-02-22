@@ -15,5 +15,29 @@ namespace Practical_lesson_No._28.Classes
         {
             return new MySqlConnection(connectionString);
         }
+
+        public static bool ExecuteNonQuery(string commandText, Dictionary<string, object> parameters)
+        {
+            using (MySqlConnection conn = Connection.GetConnection())
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch
+                {
+                    return false;
+                }
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = commandText;
+                foreach (var param in parameters)
+                {
+                    cmd.Parameters.AddWithValue(param.Key, param.Value);
+                }
+                cmd.ExecuteNonQuery();
+            }
+            return true;
+        }
     }
 }

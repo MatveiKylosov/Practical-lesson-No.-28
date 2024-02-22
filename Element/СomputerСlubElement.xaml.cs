@@ -55,11 +55,14 @@ namespace Practical_lesson_No._28.Element
                     if (string.IsNullOrEmpty(TBName.Text) || string.IsNullOrEmpty(TBAddress.Text) || string.IsNullOrEmpty(TBOpeningHours.Text))
                         return;
 
-                    Name.Text = TBName.Text;
-                    Address.Text = TBAddress.Text;
-                    OpeningHours.Text = TBOpeningHours.Text;
-
-                    computerClub.Update(Name.Text, Address.Text, OpeningHours.Text);
+                    if(computerClub.Update(TBName.Text, TBAddress.Text, TBOpeningHours.Text))
+                    {
+                        Name.Text = TBName.Text;
+                        Address.Text = TBAddress.Text;
+                        OpeningHours.Text = TBOpeningHours.Text;
+                    }
+                    else
+                        MessageBox.Show("В данный момент база данных не работает.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
                     TBName.Visibility = TBAddress.Visibility = TBOpeningHours.Visibility = Visibility.Hidden;
                     DeleteBT.Content = "Удалить";
@@ -78,8 +81,10 @@ namespace Practical_lesson_No._28.Element
             else
             {
                 if (!string.IsNullOrEmpty(TBName.Text) & !string.IsNullOrEmpty(TBAddress.Text) & !string.IsNullOrEmpty(TBOpeningHours.Text)) {
-                    Classes.ComputerClub.Insert(TBName.Text, TBAddress.Text, TBOpeningHours.Text);
-                    MainWindow.Instance.Admin_Click(null, null);
+                    if(Classes.ComputerClub.Insert(TBName.Text, TBAddress.Text, TBOpeningHours.Text))
+                        MainWindow.Instance.Admin_Click(null, null);
+                    else
+                        MessageBox.Show("В данный момент база данных не работает.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -102,10 +107,13 @@ namespace Practical_lesson_No._28.Element
                             return;
 
                     foreach (var rent in MainWindow.Instance.computerRentals.FindAll(x => x.ClubID == computerClub.ClubID))
-                        rent.Delete();
+                        if (!rent.Delete())
+                            break;
 
-                    computerClub.Delete();
-                    MainWindow.Instance.Admin_Click(null, null);
+                    if(computerClub.Delete())
+                        MainWindow.Instance.Admin_Click(null, null);
+                    else
+                        MessageBox.Show("В данный момент база данных не работает.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else

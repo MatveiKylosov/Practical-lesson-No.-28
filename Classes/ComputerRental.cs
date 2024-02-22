@@ -22,8 +22,7 @@ namespace Practical_lesson_No._28.Classes
             ClientFullName = clientFullName;
             ClubID = clubID;
         }
-
-       static public List<ComputerRental> GetAll()
+        static public List<ComputerRental> GetAll()
         {
             List<ComputerRental> rentals = new List<ComputerRental>();
             using (MySqlConnection conn = Connection.GetConnection())
@@ -43,48 +42,36 @@ namespace Practical_lesson_No._28.Classes
             return rentals;
         }
 
-        public void Update(DateTime dateAndTime, string clientFullName, int clubID)
+        public bool Update(DateTime dateAndTime, string clientFullName, int clubID)
         {
-            using (MySqlConnection conn = Connection.GetConnection())
+            var parameters = new Dictionary<string, object>
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "UPDATE ComputerRental SET DateAndTime = @dateAndTime, ClientFullName = @clientFullName, ClubID = @clubID WHERE RentalID = @rentalID";
-                cmd.Parameters.AddWithValue("@dateAndTime", dateAndTime);
-                cmd.Parameters.AddWithValue("@clientFullName", clientFullName);
-                cmd.Parameters.AddWithValue("@clubID", clubID);
-                cmd.Parameters.AddWithValue("@rentalID", this.RentalID);
-                cmd.ExecuteNonQuery();
-            }
+                {"@dateAndTime", dateAndTime},
+                {"@clientFullName", clientFullName},
+                {"@clubID", clubID},
+                {"@rentalID", this.RentalID}
+            };
+            return Connection.ExecuteNonQuery("UPDATE ComputerRental SET DateAndTime = @dateAndTime, ClientFullName = @clientFullName, ClubID = @clubID WHERE RentalID = @rentalID", parameters);
         }
 
-        static public void Insert(DateTime dateAndTime, string clientFullName, int clubID)
+        static public bool Insert(DateTime dateAndTime, string clientFullName, int clubID)
         {
-            using (MySqlConnection conn = Connection.GetConnection())
+            var parameters = new Dictionary<string, object>
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO ComputerRental (DateAndTime, ClientFullName, ClubID) VALUES (@dateAndTime, @clientFullName, @clubID)";
-                cmd.Parameters.AddWithValue("@dateAndTime", dateAndTime);
-                cmd.Parameters.AddWithValue("@clientFullName", clientFullName);
-                cmd.Parameters.AddWithValue("@clubID", clubID);
-                cmd.ExecuteNonQuery();
-            }
+                {"@dateAndTime", dateAndTime},
+                {"@clientFullName", clientFullName},
+                {"@clubID", clubID}
+            };
+            return Connection.ExecuteNonQuery("INSERT INTO ComputerRental (DateAndTime, ClientFullName, ClubID) VALUES (@dateAndTime, @clientFullName, @clubID)", parameters);
         }
 
-        public void Delete()
+        public bool Delete()
         {
-            using (MySqlConnection conn = Connection.GetConnection())
+            var parameters = new Dictionary<string, object>
             {
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "DELETE FROM ComputerRental WHERE RentalID = @rentalID";
-                cmd.Parameters.AddWithValue("@rentalID", this.RentalID);
-                cmd.ExecuteNonQuery();
-            }
+                {"@rentalID", this.RentalID}
+            };
+            return Connection.ExecuteNonQuery("DELETE FROM ComputerRental WHERE RentalID = @rentalID", parameters);
         }
     }
 }

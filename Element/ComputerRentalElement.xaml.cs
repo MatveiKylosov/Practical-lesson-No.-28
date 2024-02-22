@@ -66,17 +66,20 @@ namespace Practical_lesson_No._28.Element
                         !DateTime.TryParseExact(TBDateAndTime.Text, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
                         return;
                     
-                    ClientFullName.Text = TBClientFullName.Text; 
-                    DateAndTime.Text = TBDateAndTime.Text;
-                    ClubName.Text = ((Classes.ComputerClub)CBClubName.SelectedItem).Name;
-                    club = ((Classes.ComputerClub)CBClubName.SelectedItem);
-
-                    computerRental.Update(date, TBClientFullName.Text, 0);
-
                     TBClientFullName.Visibility = CBClubName.Visibility = TBDateAndTime.Visibility = Visibility.Hidden;
                     DeleteBT.Content = "Удалить";
 
                     edit = false;
+
+                    if (computerRental.Update(date, TBClientFullName.Text, ((Classes.ComputerClub)CBClubName.SelectedItem).ClubID))
+                    {
+                        ClientFullName.Text = TBClientFullName.Text;
+                        DateAndTime.Text = TBDateAndTime.Text;
+                        ClubName.Text = ((Classes.ComputerClub)CBClubName.SelectedItem).Name;
+                        club = ((Classes.ComputerClub)CBClubName.SelectedItem);
+                    }
+                    else
+                        MessageBox.Show("В данный момент база данных не работает.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
@@ -94,8 +97,10 @@ namespace Practical_lesson_No._28.Element
                 if (CBClubName.SelectedIndex != -1 & !string.IsNullOrEmpty(TBClientFullName.Text) & !string.IsNullOrEmpty(TBDateAndTime.Text) &
                     DateTime.TryParseExact(TBDateAndTime.Text, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date))
                 {
-                    Classes.ComputerRental.Insert(date, TBClientFullName.Text, ((Classes.ComputerClub)CBClubName.SelectedItem).ClubID);
-                    MainWindow.Instance.Admin_Click(null, null);
+                    if(Classes.ComputerRental.Insert(date, TBClientFullName.Text, ((Classes.ComputerClub)CBClubName.SelectedItem).ClubID))
+                        MainWindow.Instance.Admin_Click(null, null);
+                    else
+                        MessageBox.Show("В данный момент база данных не работает.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -113,8 +118,10 @@ namespace Practical_lesson_No._28.Element
                 }
                 else
                 {
-                    computerRental.Delete();
-                    MainWindow.Instance.Admin_Click(null, null);
+                    if (computerRental.Delete())
+                        MainWindow.Instance.Admin_Click(null, null);
+                    else 
+                        MessageBox.Show("В данный момент база данных не работает.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
